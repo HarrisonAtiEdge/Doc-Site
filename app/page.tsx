@@ -61,6 +61,11 @@ export default function HomePage() {
         <p className="mt-4 text-lg sm:text-xl md:text-2xl">
           The simplest way to create and manage your documentation.
         </p>
+        <Link href="/docs" className="mt-8 inline-block bg-gray-900 text-white font-semibold py-2 px-4 rounded hover:bg-gray-700">
+      
+            Explore Docs
+          Explore Docs
+        </Link>
       </div>
     </main>
   );
