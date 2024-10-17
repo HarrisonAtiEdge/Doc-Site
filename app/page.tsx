@@ -1,6 +1,48 @@
+"use client";
+import { useState } from 'react';
 import Link from 'next/link';
 
 export default function HomePage() {
+  const [password, setPassword] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const correctPassword =  process.env.PASSWORD; 
+
+  const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (password === correctPassword) {
+      setIsAuthenticated(true);
+    } else {
+      alert('Incorrect password');
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <main className="flex h-screen items-center justify-center bg-black text-white">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold mb-6">Enter Password to Access</h2>
+          <form onSubmit={handlePasswordSubmit} className="space-y-4">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
+              className="w-full max-w-sm p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            />
+            <button
+              type="submit"
+              className="w-full max-w-sm bg-gray-900 text-white font-semibold py-2 px-4 rounded hover:bg-gray-700"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </main>
+    );
+  }
+
+  // If authenticated, render the original page content
   return (
     <main className="flex h-screen items-center justify-center bg-black text-white">
       <div className="text-center">
@@ -9,9 +51,7 @@ export default function HomePage() {
           The simplest way to create and manage your documentation.
         </p>
         <Link href="/docs" className="mt-8 inline-block bg-gray-900 text-white font-semibold py-2 px-4 rounded hover:bg-gray-700">
-      
-            Explore Docs
-
+          Explore Docs
         </Link>
       </div>
     </main>
