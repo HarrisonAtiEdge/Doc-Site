@@ -1,16 +1,27 @@
 "use client";
+
 import { useState } from 'react';
-import Link from 'next/link';
 
 export default function HomePage() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const correctPassword =  process.env.PASSWORD; 
-
-  const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (password === correctPassword) {
+    
+    // Send password to API route for authentication
+    const res = await fetch('/api/authenticate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password }),
+    });
+    
+
+    const data = await res.json();
+
+    if (data.authenticated) {
       setIsAuthenticated(true);
     } else {
       alert('Incorrect password');
@@ -50,9 +61,6 @@ export default function HomePage() {
         <p className="mt-4 text-lg sm:text-xl md:text-2xl">
           The simplest way to create and manage your documentation.
         </p>
-        <Link href="/docs" className="mt-8 inline-block bg-gray-900 text-white font-semibold py-2 px-4 rounded hover:bg-gray-700">
-          Explore Docs
-        </Link>
       </div>
     </main>
   );
